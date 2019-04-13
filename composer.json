@@ -33,7 +33,6 @@
         "src/configs/database.php",
         "src/configs/controller.php",
         "src/controllers",
-        "src/controllers/access",
         "src/models"
       ]
     },
