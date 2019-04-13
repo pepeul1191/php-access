@@ -1,6 +1,6 @@
 <?php
 
-namespace Access\Controller;
+namespace Controller;
 
 class ViewController extends \Configs\Controller
 {

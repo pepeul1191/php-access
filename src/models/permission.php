@@ -1,6 +1,6 @@
 <?php
 
-namespace Models\Access;
+namespace Models;
 
 class Permission extends \Model
 {

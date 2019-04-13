@@ -1,18 +1,18 @@
 <?php
 
-namespace Access\Controller;
+namespace Controller;
 
-class SystemController extends \Configs\Controller
+class PermissionController extends \Configs\Controller
 {
   public function list($request, $response, $args) {
     # data
     $rpta = '';
     $status = 200;
+    $system_id = $args['system_id'];
     # logic
     try {
-      $rs = \Model::factory('\Models\Access\System', 'access')
-      	->select('id')
-      	->select('name')
+      $rs = \Model::factory('\Models\Access\Permission', 'access')
+        ->where('system_id', $system_id)
       	->find_array();
       $rpta = json_encode($rs);
     }catch (Exception $e) {
@@ -21,7 +21,7 @@ class SystemController extends \Configs\Controller
         [
           'tipo_mensaje' => 'error',
           'mensaje' => [
-  					'No se ha podido listar los sistemas',
+  					'No se ha podido listar los permisos',
   					$e->getMessage()
   				]
         ]
@@ -35,32 +35,36 @@ class SystemController extends \Configs\Controller
     $nuevos = $data->{'nuevos'};
     $editados = $data->{'editados'};
     $eliminados = $data->{'eliminados'};
+    $system_id = $data->{'extra'}->{'system_id'};
     $rpta = []; $array_nuevos = [];
     $status = 200;
     \ORM::get_db('access')->beginTransaction();
     try {
       if(count($nuevos) > 0){
         foreach ($nuevos as &$nuevo) {
-          $system = \Model::factory('\Models\Access\System', 'access')->create();
-          $system->name = $nuevo->{'name'};
-          $system->save();
+          $permission = \Model::factory('\Models\Access\Permission', 'access')->create();
+          $permission->name = $nuevo->{'name'};
+          $permission->description = $nuevo->{'description'};
+          $permission->system_id = $system_id;
+          $permission->save();
           $temp = [];
           $temp['temporal'] = $nuevo->{'id'};
-          $temp['nuevo_id'] = $system->id;
+          $temp['nuevo_id'] = $permission->id;
           array_push( $array_nuevos, $temp );
         }
       }
       if(count($editados) > 0){
         foreach ($editados as &$editado) {
-          $system = \Model::factory('\Models\Access\System', 'access')->find_one($editado->{'id'});
-          $system->name = $editado->{'name'};
-          $system->save();
+          $permission = \Model::factory('\Models\Access\Permission', 'access')->find_one($editado->{'id'});
+          $permission->name = $editado->{'name'};
+          $permission->description = $editado->{'description'};
+          $permission->save();
         }
       }
       if(count($eliminados) > 0){
         foreach ($eliminados as &$eliminado) {
-          $system = \Model::factory('\Models\Access\System', 'access')->find_one($eliminado);
-          $system->delete();
+          $permission = \Model::factory('\Models\Access\Permission', 'access')->find_one($eliminado);
+          $permission->delete();
         }
       }
       $rpta['tipo_mensaje'] = 'success';
@@ -73,7 +77,7 @@ class SystemController extends \Configs\Controller
       $status = 500;
       $rpta['tipo_mensaje'] = 'error';
       $rpta['mensaje'] = [
-        'Se ha producido un error en guardar la tabla de sistemas',
+        'Se ha producido un error en guardar la tabla de permisos',
         $e->getMessage()
       ];
       \ORM::get_db('access')->rollBack();

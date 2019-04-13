@@ -2,17 +2,17 @@
 
 namespace Controller;
 
-class ProvinciaController extends \Configs\Controller
+class SystemController extends \Configs\Controller
 {
-  public function listar($request, $response, $args) {
+  public function list($request, $response, $args) {
+    # data
     $rpta = '';
     $status = 200;
-    $departamento_id = $args['departamento_id'];
+    # logic
     try {
-      $rs = \Model::factory('\Models\Provincia', 'ubicaciones')
+      $rs = \Model::factory('\Models\Access\System', 'access')
       	->select('id')
-      	->select('nombre')
-      	->where('departamento_id', $departamento_id)
+      	->select('name')
       	->find_array();
       $rpta = json_encode($rs);
     }catch (Exception $e) {
@@ -21,7 +21,7 @@ class ProvinciaController extends \Configs\Controller
         [
           'tipo_mensaje' => 'error',
           'mensaje' => [
-  					'No se ha podido listar los provincias del departamento',
+  					'No se ha podido listar los sistemas',
   					$e->getMessage()
   				]
         ]
@@ -30,55 +30,53 @@ class ProvinciaController extends \Configs\Controller
     return $response->withStatus($status)->write($rpta);
   }
 
-  public function guardar($request, $response, $args) {
+  public function save($request, $response, $args) {
     $data = json_decode($request->getParam('data'));
     $nuevos = $data->{'nuevos'};
     $editados = $data->{'editados'};
     $eliminados = $data->{'eliminados'};
-    $departamento_id = $data->{'extra'}->{'departamento_id'};
     $rpta = []; $array_nuevos = [];
     $status = 200;
-    \ORM::get_db('ubicaciones')->beginTransaction();
+    \ORM::get_db('access')->beginTransaction();
     try {
       if(count($nuevos) > 0){
         foreach ($nuevos as &$nuevo) {
-          $provincia = \Model::factory('\Models\Provincia', 'ubicaciones')->create();
-          $provincia->nombre = $nuevo->{'nombre'};
-          $provincia->departamento_id = $departamento_id;
-          $provincia->save();
+          $system = \Model::factory('\Models\Access\System', 'access')->create();
+          $system->name = $nuevo->{'name'};
+          $system->save();
           $temp = [];
           $temp['temporal'] = $nuevo->{'id'};
-          $temp['nuevo_id'] = $provincia->id;
+          $temp['nuevo_id'] = $system->id;
           array_push( $array_nuevos, $temp );
         }
       }
       if(count($editados) > 0){
         foreach ($editados as &$editado) {
-          $provincia = \Model::factory('\Models\Provincia', 'ubicaciones')->find_one($editado->{'id'});
-          $provincia->nombre = $editado->{'nombre'};
-          $provincia->save();
+          $system = \Model::factory('\Models\Access\System', 'access')->find_one($editado->{'id'});
+          $system->name = $editado->{'name'};
+          $system->save();
         }
       }
       if(count($eliminados) > 0){
         foreach ($eliminados as &$eliminado) {
-          $provincia = \Model::factory('\Models\Provincia', 'ubicaciones')->find_one($eliminado);
-          $provincia->delete();
+          $system = \Model::factory('\Models\Access\System', 'access')->find_one($eliminado);
+          $system->delete();
         }
       }
       $rpta['tipo_mensaje'] = 'success';
       $rpta['mensaje'] = [
-        'Se ha registrado los cambios en las provincias',
+        'Se ha registrado los cambios en los sistemas',
         $array_nuevos
       ];
-      \ORM::get_db('ubicaciones')->commit();
+      \ORM::get_db('access')->commit();
     }catch (Exception $e) {
       $status = 500;
       $rpta['tipo_mensaje'] = 'error';
       $rpta['mensaje'] = [
-        'Se ha producido un error en guardar la tabla de provincias',
+        'Se ha producido un error en guardar la tabla de sistemas',
         $e->getMessage()
       ];
-      \ORM::get_db('ubicaciones')->rollBack();
+      \ORM::get_db('access')->rollBack();
     }
     return $response->withStatus($status)->write(json_encode($rpta));
   }

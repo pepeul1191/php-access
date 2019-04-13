@@ -1,6 +1,5 @@
 <?php
 
-ORM::configure('sqlite:' . 'db/ubicaciones.db',  null, 'ubicaciones');
 ORM::configure(array(
   'connection_string' => 'mysql:host=localhost;dbname=access',
   'username' => 'root',
