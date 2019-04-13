@@ -11,7 +11,7 @@ class PermissionController extends \Configs\Controller
     $system_id = $args['system_id'];
     # logic
     try {
-      $rs = \Model::factory('\Models\Access\Permission', 'access')
+      $rs = \Model::factory('\Models\Permission', 'access')
         ->where('system_id', $system_id)
       	->find_array();
       $rpta = json_encode($rs);
@@ -42,7 +42,7 @@ class PermissionController extends \Configs\Controller
     try {
       if(count($nuevos) > 0){
         foreach ($nuevos as &$nuevo) {
-          $permission = \Model::factory('\Models\Access\Permission', 'access')->create();
+          $permission = \Model::factory('\Models\Permission', 'access')->create();
           $permission->name = $nuevo->{'name'};
           $permission->description = $nuevo->{'description'};
           $permission->system_id = $system_id;
@@ -55,7 +55,7 @@ class PermissionController extends \Configs\Controller
       }
       if(count($editados) > 0){
         foreach ($editados as &$editado) {
-          $permission = \Model::factory('\Models\Access\Permission', 'access')->find_one($editado->{'id'});
+          $permission = \Model::factory('\Models\Permission', 'access')->find_one($editado->{'id'});
           $permission->name = $editado->{'name'};
           $permission->description = $editado->{'description'};
           $permission->save();
@@ -63,7 +63,7 @@ class PermissionController extends \Configs\Controller
       }
       if(count($eliminados) > 0){
         foreach ($eliminados as &$eliminado) {
-          $permission = \Model::factory('\Models\Access\Permission', 'access')->find_one($eliminado);
+          $permission = \Model::factory('\Models\Permission', 'access')->find_one($eliminado);
           $permission->delete();
         }
       }

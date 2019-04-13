@@ -10,7 +10,7 @@ class SystemController extends \Configs\Controller
     $status = 200;
     # logic
     try {
-      $rs = \Model::factory('\Models\Access\System', 'access')
+      $rs = \Model::factory('\Models\System', 'access')
       	->select('id')
       	->select('name')
       	->find_array();
@@ -41,7 +41,7 @@ class SystemController extends \Configs\Controller
     try {
       if(count($nuevos) > 0){
         foreach ($nuevos as &$nuevo) {
-          $system = \Model::factory('\Models\Access\System', 'access')->create();
+          $system = \Model::factory('\Models\System', 'access')->create();
           $system->name = $nuevo->{'name'};
           $system->save();
           $temp = [];
@@ -52,14 +52,14 @@ class SystemController extends \Configs\Controller
       }
       if(count($editados) > 0){
         foreach ($editados as &$editado) {
-          $system = \Model::factory('\Models\Access\System', 'access')->find_one($editado->{'id'});
+          $system = \Model::factory('\Models\System', 'access')->find_one($editado->{'id'});
           $system->name = $editado->{'name'};
           $system->save();
         }
       }
       if(count($eliminados) > 0){
         foreach ($eliminados as &$eliminado) {
-          $system = \Model::factory('\Models\Access\System', 'access')->find_one($eliminado);
+          $system = \Model::factory('\Models\System', 'access')->find_one($eliminado);
           $system->delete();
         }
       }
