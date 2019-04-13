@@ -14,6 +14,19 @@ Basado en Slim Framework 3 Skeleton Application
 
 Cambiar en 'src/configs/settings.php' el valor de llave 'ambiente_csrf' y 'ambiente_session' a 'inactivo' .
 
+### Migraciones
+
+Migraciones con DBMATE - access:
+
+    $ dbmate -d "db/migrations" -e "ACCESS" new <<nombre_de_migracion>>
+    $ dbmate -d "db/migrations" -e "ACCESS" up
+    $ dbmate -d "db/migrations" -e "ACCESS" rollback
+
+### Dump y Restore Mysql
+
+    $ mysqldump -u root -p access > db/access.sql
+    $ mysql -u root -p access < db/access.sql
+
 ---
 
 Fuentes:
