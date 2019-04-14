@@ -65,11 +65,11 @@ var SystemRoleView = ModalView.extend({
     var code = event.keyCode || event.which;
     if(code == 27){
       this.modalContainer.modal('hide');
-      window.location.href = BASE_URL + "access/#/system";
+      window.location.href = BASE_URL + "/#/system";
     }
   },
   modalClose: function(event){
     this.modalContainer.modal('hide');
-    window.location.href = BASE_URL + "access/#/system";
+    window.location.href = BASE_URL + "/#/system";
   },
 });

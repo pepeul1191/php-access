@@ -23,11 +23,9 @@ $app->get('/error/access/{numero}', ErrorController::class . ':access');
 //home
 $app->get('/', HomeController::class . ':view')->add($mw_session_true);
 //servicios REST
-// access
-$app->get('/access/', \Access\Controller\ViewController::class . ':index');
 // system
-$app->get('/access/system/list', \Access\Controller\SystemController::class . ':list');
-$app->post('/access/system/save', \Access\Controller\SystemController::class . ':save');
+$app->get('/access/system/list', Controller\SystemController::class . ':list');
+$app->post('/access/system/save', Controller\SystemController::class . ':save');
 // permission
-$app->get('/access/permission/list/{system_id}', \Access\Controller\PermissionController::class . ':list');
-$app->post('/access/permission/save', \Access\Controller\PermissionController::class . ':save');
+$app->get('/access/permission/list/{system_id}', Controller\PermissionController::class . ':list');
+$app->post('/access/permission/save', Controller\PermissionController::class . ':save');

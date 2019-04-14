@@ -9,11 +9,10 @@ if ( ! function_exists('index_css'))
         $rpta = [
           'bower_components/bootstrap/dist/css/bootstrap.min',
 				  'bower_components/font-awesome/css/font-awesome.min',
-          'bower_components/swp-backbone/assets/css/constants',
           'bower_components/swp-backbone/assets/css/dashboard',
           'bower_components/swp-backbone/assets/css/table',
-          'access/assets/css/constants',
-          'access/assets/css/styles',
+          'assets/css/constants',
+          'assets/css/styles',
         ];
         break;
       case 'produccion':
@@ -38,6 +37,7 @@ if ( ! function_exists('index_js'))
           'bower_components/underscore/underscore-min',
           'bower_components/backbone/backbone-min',
           'bower_components/handlebars/handlebars.min',
+          'bower_components/swp-backbone/layouts/application',
           'bower_components/swp-backbone/views/table',
           'bower_components/swp-backbone/views/modal',
           'bower_components/swp-backbone/views/upload',
@@ -58,7 +58,6 @@ if ( ! function_exists('index_js'))
           'access/views/system_permission_view',
           'access/views/system_role_view',
           'access/routes/access',
-
         ];
         break;
       case 'produccion':

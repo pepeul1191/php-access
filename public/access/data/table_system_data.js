@@ -31,14 +31,14 @@ var dataTableSystem = {
       claseOperacion: "gesionar-permisos",
       clase: "fa-list",
       estilos: "padding-left: 30px;",
-      url: BASE_URL + 'access/#/system/permission/'/*+ system_id*/,
+      url: BASE_URL + '#/system/permission/'/*+ system_id*/,
     },
     {
       tipo: "href",
       claseOperacion: "gestionar-roles",
       clase: "fa-id-card-o",
       estilos: "padding-left: 10px;",
-      url: BASE_URL + 'access/#/system/role/'/*+ sistema_id*/,
+      url: BASE_URL + '#/system/role/'/*+ sistema_id*/,
     },
     {
       tipo: "i",
